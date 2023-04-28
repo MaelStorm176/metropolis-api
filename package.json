@@ -1,6 +1,6 @@
 {
   "name": "metropolis-api",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "JSON API for metropolis Cinema located in CM",
   "main": "index.js",
   "type": "module",
