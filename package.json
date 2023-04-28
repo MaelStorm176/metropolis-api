@@ -1,0 +1,28 @@
+{
+  "name": "metropolis-api",
+  "version": "1.0.1",
+  "description": "JSON API for metropolis Cinema located in CM",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/MaelStorm176/metropolis-api.git"
+  },
+  "keywords": [
+    "api",
+    "metropolis",
+    "cinema"
+  ],
+  "author": "MaelStorm",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MaelStorm176/metropolis-api/issues"
+  },
+  "homepage": "https://github.com/MaelStorm176/metropolis-api#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12"
+  }
+}
