@@ -45,11 +45,9 @@ const movies = await getMovies(); // Get the list of movies currently playing
 console.log(movies);
 ```
 
-[Back to summary.](#summary)
-
 ## 4. Example output
 
-```json
+```javascript
 [
     {
         id: '383926',
