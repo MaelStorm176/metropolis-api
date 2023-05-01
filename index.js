@@ -1,6 +1,7 @@
 import * as cheerio from 'cheerio';
 
-const url = "https://www.cinemet.fr/mobile/?p=";
+const firstUrl = "https://www.cinemet.fr/mobile/?p=";
+const secondUrl = "https://www.cinemet.fr/";
 
 const formatDuration = (duration) => {
     const durationSplit = duration.split("h");
@@ -13,7 +14,7 @@ const formatDuration = (duration) => {
 }
 
 export const getMovies = async () => {
-    const response = await fetch(`${url}films-a-l-affiche`);
+    const response = fetch(`${firstUrl}films-a-l-affiche`);
     const htmlString = await response.text();
     const $ = cheerio.load(htmlString);
     const movies = [];
@@ -38,23 +39,29 @@ export const getMovies = async () => {
 }
 
 export const getMovie = async (id) => {
-    const response = await fetch(`${url}film&fid=${id}`);
+    const response = await fetch(`${secondUrl}film/${id}`);
     const htmlString = await response.text();
     const $ = cheerio.load(htmlString);
-    const img = $(".affiche > a > img");
-    const poster  = img.attr('src');
-    const title = img.attr('alt');
-    const photos = $(".photos > a > img").map((i, elem) => $(elem).attr('src')).get();
-    const description = $(".synopsis").text();
-    const genre = $(".genre").text();
-    const duration = formatDuration($(".duree").text());
-    const director = $(".real > strong").text().split(', ')
-    const actors = $(".inter > strong").text().split(', ');
-    const restriction = $(".interdiction").text();
+    const title = $(".ff_titre").text();
+
+    if (title === '') {
+        throw new Error(`No movie found with id ${id}`);
+    }
+
+    const poster  = $("img.affiche").attr('src');
+    const releaseDate = $(".ff_release > strong").text();
+    const photos = $(".ff_pics > a > img").map((i, elem) => $(elem).attr('src')).get();
+    const description = $(".ff_synopsis").text();
+    const genre = $(".ff_genre > strong").text().split(', ').map((genre) => genre.trim());
+    const duration = formatDuration($(".duration").text().replace('.',''));
+    const director = $(".ff_director > strong").text().split(', ').map((director) => director.trim())
+    const actors = $(".ff_cast > strong").text().split(', ').map((actor) => actor.trim())
+    const restriction = $(".ff_tags > img").attr('alt');
 
     return {
         id,
         title,
+        releaseDate,
         poster,
         photos,
         description,
